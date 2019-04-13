@@ -1,6 +1,7 @@
 dependencies:
   bcryptjs: 2.4.3
   body-parser: 1.18.3
+  eslint-plugin-flowtype: 3.6.0
   express: 4.16.4
   gravatar: 1.8.0
   jsonwebtoken: 8.5.1
@@ -566,6 +567,16 @@ packages:
       node: '>=4'
     resolution:
       integrity: sha512-lmDJgeOOjk8hObTysjqH7wyMi+nsHwwvfBykwfhjR1LNdd7C2uFJBvx4OpWYpXOw4df1yE1cDEVd1yLHitk34w==
+  /eslint-plugin-flowtype/3.6.0:
+    dependencies:
+      lodash: 4.17.11
+    dev: false
+    engines:
+      node: '>=4'
+    peerDependencies:
+      eslint: '>=2.0.0'
+    resolution:
+      integrity: sha512-7wRfgzXteB9jswXreGG64FlOdscV4z4hIW2lS+mC5t1K2QQkUDh7A+95dB4nU7io8zIOq4cRpftF+41xvMCtiA==
   /eslint-plugin-import/2.16.0:
     dependencies:
       contains-path: 0.1.0
@@ -2437,6 +2448,7 @@ specifiers:
   eslint-config-airbnb: ^17.1.0
   eslint-config-prettier: ^4.1.0
   eslint-config-react-app: ^3.0.8
+  eslint-plugin-flowtype: ^3.6.0
   eslint-plugin-import: ^2.16.0
   eslint-plugin-jsx-a11y: ^6.2.1
   eslint-plugin-prettier: ^3.0.1
