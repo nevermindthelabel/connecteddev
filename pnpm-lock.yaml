@@ -9,6 +9,7 @@ dependencies:
   mongoose: 5.5.1
   passport: 0.4.0
   passport-jwt: 4.0.0
+  react-strap: 0.0.1
   validator: 10.11.0
 devDependencies:
   concurrently: 4.1.0
@@ -1575,6 +1576,10 @@ packages:
     dev: true
     resolution:
       integrity: sha512-aUk3bHfZ2bRSVFFbbeVS4i+lNPZr3/WM5jT2J5omUVV1zzcs1nAaf3l51ctA5FFvCRbhrH0bdAsRRQddFJZPtA==
+  /react-strap/0.0.1:
+    dev: false
+    resolution:
+      integrity: sha1-CPIsXioK5/R1zVgUuJ/AwFpnIV4=
   /read-pkg-up/2.0.0:
     dependencies:
       find-up: 2.1.0
@@ -2010,4 +2015,5 @@ specifiers:
   passport: ^0.4.0
   passport-jwt: ^4.0.0
   prettier: ^1.16.4
+  react-strap: ^0.0.1
   validator: ^10.11.0
