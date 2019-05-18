@@ -181,4 +181,20 @@ router.put(
   }
 );
 
+router.delete('/experience/:id', auth, async (req, res) => {
+  try {
+    const profile = await Profile.findOne({ user: req.user.id });
+    const removeExperience = profile.experience.map(experience => experience.id).indexOf(req.params.id);
+
+    profile.experience.splice(removeExperience, 1);
+
+    await profile.save();
+
+    res.json(profile);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Internal Server Error');
+  }
+})
+
 module.exports = router;
