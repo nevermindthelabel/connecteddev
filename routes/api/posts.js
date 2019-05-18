@@ -75,6 +75,8 @@ router.get('/:id', auth, async (req, res) => {
   }
 });
 
+// Delete own posts only by ID
+
 router.delete('/:id', auth, async (req, res) => {
   try {
     const post = await Post.findById(req.params.id);
@@ -98,5 +100,47 @@ router.delete('/:id', auth, async (req, res) => {
     res.status(500).send('Internal Server Error');
   }
 });
+
+// PUT request to add likes to a post
+
+router.put('/like/:id', auth, async (req, res) => {
+  try {
+    const post = await Post.findById(req.params.id);
+    if (post.likes.filter(like => like.user.toString() === req.user.id).length > 0) {
+      return res.status(400).json({ msg: "Post already liked by this user" });
+    }
+    post.likes.unshift({ user: req.user.id });
+
+    await post.save();
+    res.json(post.likes);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+// PUT request to remove a like
+
+router.put('/unlike/:id', auth, async (req, res) => {
+  try {
+    const post = await Post.findById(req.params.id);
+
+    if (post.likes.filter(like => like.user.toString() === req.user.id).length === 0) {
+      return res.status(400).json({ msg: "You have not liked this post yet" });
+    }
+    const removeLike = post.likes.map(like => like.user.id.toString()).indexOf(req.user.id);
+
+    post.likes.splice(removeLike, 1)
+
+    await post.save();
+
+    res.json(post.likes);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Internal Server Error')
+  }
+});
+
+
 
 module.exports = router;
