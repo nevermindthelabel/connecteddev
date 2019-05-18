@@ -2,6 +2,8 @@ const router = require('express').Router();
 const auth = require('../../middleware/auth');
 const Profile = require('../../models/Profile');
 const User = require('../../models/User');
+const request = require('request');
+require('dotenv').config();
 const { check, validationResult } = require('express-validator/check');
 
 // GET request for logged in user's profile
@@ -269,13 +271,38 @@ router.delete('/education/:id', auth, async (req, res) => {
   try {
     const profile = await Profile.findOne({ user: req.user.id });
     const removeEducation = profile.education.map(education => education.id).indexOf(req.params.id);
-    
+
     profile.education.splice(removeEducation, 1);
 
     await profile.save();
 
     return res.json(profile);
-    
+  } catch (err) {
+    console.error(err.mesage);
+    return res.status(500).send('Internal Server Error');
+  }
+});
+
+// GET request for GitHub user repos
+
+router.get('/github/:username', async (req, res) => {
+  try {
+    const options = {
+      uri: `https://api.github.com/users/${
+        req.params.username
+      }/repos?per_page5&sort=created:asc&client_id=${process.env.ClientId}&client_secret=${
+        process.env.ClientSecret
+      }`,
+      method: 'GET',
+      headers: { 'user-agent': 'node.js' }
+    };
+    request(options, (error, response, body) => {
+      if (error) console.error(error);
+      if (response.statusCode !== 200) {
+        return res.status(404).json({ msg: 'No profile found'});
+      }
+      res.json(JSON.parse(body));
+    })
   } catch (err) {
     console.error(err.mesage);
     return res.status(500).send('Internal Server Error');
