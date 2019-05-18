@@ -4,6 +4,8 @@ const Profile = require('../../models/Profile');
 const User = require('../../models/User');
 const { check, validationResult } = require('express-validator/check');
 
+// GET request for logged in user's profile
+
 router.get('/me', auth, async (req, res) => {
   try {
     const profile = await Profile.findOne({ user: req.user.id }).populate('user', [
@@ -19,6 +21,8 @@ router.get('/me', auth, async (req, res) => {
     res.status(500).send('Internal Server Error');
   }
 });
+
+// POST request to create a profile
 
 router.post(
   '/',
@@ -96,6 +100,8 @@ router.post(
   }
 );
 
+// GET request for all profiles
+
 router.get('/', async (req, res) => {
   try {
     const profiles = await Profile.find().populate('user', ['name', 'avatar']);
@@ -105,6 +111,8 @@ router.get('/', async (req, res) => {
     res.status(500).send('Internal Server Error');
   }
 });
+
+// GET request for a particular user by ID
 
 router.get('/user/:id', async (req, res) => {
   try {
@@ -125,6 +133,8 @@ router.get('/user/:id', async (req, res) => {
   }
 });
 
+// Delete request for a user and profile by ID
+
 router.delete('/', auth, async (req, res) => {
   try {
     await Profile.findOneAndRemove({ user: req.user.id });
@@ -135,6 +145,8 @@ router.delete('/', auth, async (req, res) => {
     return res.status(500).send('Internal Server Error');
   }
 });
+
+// PUT request for a user's experience info
 
 router.put(
   '/experience',
@@ -181,10 +193,14 @@ router.put(
   }
 );
 
+// Delete request for a logged in user's experience by their ID
+
 router.delete('/experience/:id', auth, async (req, res) => {
   try {
     const profile = await Profile.findOne({ user: req.user.id });
-    const removeExperience = profile.experience.map(experience => experience.id).indexOf(req.params.id);
+    const removeExperience = profile.experience
+      .map(experience => experience.id)
+      .indexOf(req.params.id);
 
     profile.experience.splice(removeExperience, 1);
 
@@ -195,6 +211,75 @@ router.delete('/experience/:id', auth, async (req, res) => {
     console.error(err.message);
     res.status(500).send('Internal Server Error');
   }
-})
+});
+
+// PUT request for a user's education fields
+
+router.put(
+  '/education',
+  [
+    auth,
+    [
+      check('school', 'School is a required field')
+        .not()
+        .isEmpty(),
+      check('degree', 'Degree is a required field')
+        .not()
+        .isEmpty(),
+      check('fieldofstudy', 'Field of Study is required')
+        .not()
+        .isEmpty(),
+      check('from', 'The start date is a required field')
+        .not()
+        .isEmpty()
+    ]
+  ],
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+    const { school, degree, fieldofstudy, from, to, current, description } = req.body;
+
+    const newEducation = {
+      school,
+      degree,
+      fieldofstudy,
+      from,
+      to,
+      current,
+      description
+    };
+
+    try {
+      const profile = await Profile.findOne({ user: req.user.id });
+      profile.education.unshift(newEducation);
+      await profile.save();
+      res.json(profile);
+    } catch (err) {
+      console.error(err.message);
+      return res.status(500).send('Internal Server Error');
+    }
+  }
+);
+
+// Delete request for logged in user's education object
+
+router.delete('/education/:id', auth, async (req, res) => {
+  try {
+    const profile = await Profile.findOne({ user: req.user.id });
+    const removeEducation = profile.education.map(education => education.id).indexOf(req.params.id);
+    
+    profile.education.splice(removeEducation, 1);
+
+    await profile.save();
+
+    return res.json(profile);
+    
+  } catch (err) {
+    console.error(err.mesage);
+    return res.status(500).send('Internal Server Error');
+  }
+});
 
 module.exports = router;
