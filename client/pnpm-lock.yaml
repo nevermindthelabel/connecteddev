@@ -7,6 +7,7 @@ dependencies:
   redux: 4.0.1
   redux-devtools-extension: 2.13.8
   redux-thunk: 2.3.0
+  uuid: 3.3.2
 lockfileVersion: 5
 packages:
   /@babel/runtime/7.4.4:
@@ -290,6 +291,11 @@ packages:
     dev: false
     resolution:
       integrity: sha512-T3PVJ6uz8i0HzPxOF9SWzWAlfN/DavlpQqepn22xgve/5QecC+XMCAtmUNnY7C9StehaV6exjUCI801lOI7QlQ==
+  /uuid/3.3.2:
+    dev: false
+    hasBin: true
+    resolution:
+      integrity: sha512-yXJmeNaw3DnnKAOKJE51sL/ZaYfWJRl1pK9dr19YFCu0ObS231AB1/LbqTKRAQ5kw8A90rA6fr4riOUpTZvQZA==
   /value-equal/0.4.0:
     dev: false
     resolution:
@@ -307,3 +313,4 @@ specifiers:
   redux: ^4.0.1
   redux-devtools-extension: ^2.13.8
   redux-thunk: ^2.3.0
+  uuid: ^3.3.2
