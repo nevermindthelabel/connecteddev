@@ -1,8 +1,10 @@
 import React, { useState, Fragment } from 'react';
+import { Link, withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { createOrUpdateProfile } from '../../actions/profile';
 
-const CreateProfile = props => {
+const CreateProfile = ({ createOrUpdateProfile, history }) => {
   const [formData, setFormData] = useState({
     company: '',
     website: '',
@@ -35,7 +37,11 @@ const CreateProfile = props => {
     youtube
   } = formData;
 
-  const onChange = event => setFormData({ ...formData, [event.target.name]: event.target.value })
+  const onChange = event => setFormData({ ...formData, [event.target.name]: event.target.value });
+
+  const onSubmit = event => {event.preventDefault();
+  createOrUpdateProfile(formData, history)
+}
 
   return (
     <Fragment>
@@ -44,7 +50,7 @@ const CreateProfile = props => {
         <i className="fas fa-user" /> Let's get some information to make your profile stand out
       </p>
       <small>* = required field</small>
-      <form className="form">
+      <form className="form" onSubmit={event => onSubmit(event)}>
         <div className="form-group">
           <select name="status" value={status} onChange={event => onChange(event)}>
             <option value="0">* Select Professional Status</option>
@@ -135,7 +141,12 @@ const CreateProfile = props => {
 }
 
 CreateProfile.propTypes = {
-
+  createProfile: PropTypes.func
 }
 
-export default connect()(CreateProfile);
+
+
+export default connect(
+  null,
+  { createOrUpdateProfile }
+)(withRouter(CreateProfile));
