@@ -3,12 +3,13 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Spinner from '../layout/Spinner';
+import DashboardActions from './DashboardActions';
 import { getCurrentProfile } from '../../actions/profile';
 
 const Dashboard = ({ getCurrentProfile, auth: { user }, profile: { loading, profile } }) => {
   useEffect(() => {
     getCurrentProfile();
-  }, [ ]);
+  }, []);
   return loading && profile === null ? (
     <Spinner />
   ) : (
@@ -19,14 +20,14 @@ const Dashboard = ({ getCurrentProfile, auth: { user }, profile: { loading, prof
       </p>
       {profile !== null ? (
         <Fragment>
-          <h2 className="text-success">Thank you for creating a profile {user.name}</h2>
+          <DashboardActions />
         </Fragment>
       ) : (
         <Fragment>
           <h2 style={{ color: 'red' }}>There is no Profile for this account, {user.name}</h2>
-          <Link to='/create-profile' className='btn btn-primary my-1'>
+          <Link to="/create-profile" className="btn btn-primary my-1">
             Create your profile here
-            </Link> 
+          </Link>
         </Fragment>
       )}
     </Fragment>
