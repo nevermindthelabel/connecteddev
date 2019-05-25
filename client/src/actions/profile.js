@@ -32,7 +32,9 @@ export const createOrUpdateProfile = (formData, history, edit = false) => async 
          payload: res.data
        });
 
-       dispatch(setAlert(edit ? 'Profile has been Updated' : 'Thank you, Profie Created'));
+       dispatch(
+         setAlert(edit ? 'Profile has been Updated' : 'Thank you, Profie Created', 'success')
+       );
 
        if (!edit) {
          history.push('/dashboard');
