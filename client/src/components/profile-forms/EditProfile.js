@@ -140,7 +140,7 @@ const EditProfile = ({ profile: { profile, loading }, createOrUpdateProfile, his
           </small>
         </div>
         <div className="form-group">
-          <textarea placeholder="A short bio of yourself" name="bio" />
+          <textarea placeholder="A short bio of yourself" name="bio" value={bio} onChange={event => onChange(event)} />
           <small className="form-text">Tell us a little about yourself</small>
         </div>
 
