@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const auth = require('../../middleware/auth');
 const Profile = require('../../models/Profile');
+const Posts = require('../../models/Posts');
 const User = require('../../models/User');
 const request = require('request');
 require('dotenv').config();
@@ -139,6 +140,7 @@ router.get('/user/:id', async (req, res) => {
 
 router.delete('/', auth, async (req, res) => {
   try {
+    await Posts.deleteMany({ user: req.user.id });
     await Profile.findOneAndRemove({ user: req.user.id });
     await User.findOneAndRemove({ _id: req.user.id });
     res.json({ msg: 'User successfully removed' });
