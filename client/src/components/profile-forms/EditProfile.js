@@ -4,7 +4,12 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createOrUpdateProfile, getCurrentProfile } from '../../actions/profile';
 
-const EditProfile = ({ profile: { profile, loading }, createOrUpdateProfile, history, getCurrentProfile }) => {
+const EditProfile = ({
+  profile: { profile, loading },
+  createOrUpdateProfile,
+  history,
+  getCurrentProfile
+}) => {
   const [formData, setFormData] = useState({
     company: '',
     website: '',
@@ -39,6 +44,7 @@ const EditProfile = ({ profile: { profile, loading }, createOrUpdateProfile, his
       youtube: loading || !profile.social ? '' : profile.social.youtube,
       instagram: loading || !profile.social ? '' : profile.social.instagram
     });
+    // eslint-disable-next-line
   }, [loading]);
 
   const {
@@ -140,7 +146,12 @@ const EditProfile = ({ profile: { profile, loading }, createOrUpdateProfile, his
           </small>
         </div>
         <div className="form-group">
-          <textarea placeholder="A short bio of yourself" name="bio" value={bio} onChange={event => onChange(event)} />
+          <textarea
+            placeholder="A short bio of yourself"
+            name="bio"
+            value={bio}
+            onChange={event => onChange(event)}
+          />
           <small className="form-text">Tell us a little about yourself</small>
         </div>
 
@@ -163,7 +174,7 @@ const EditProfile = ({ profile: { profile, loading }, createOrUpdateProfile, his
                 type="text"
                 placeholder="Twitter URL"
                 name="twitter"
-                value={twitter}
+                value={twitter || ''}
                 onChange={event => onChange(event)}
               />
             </div>
@@ -174,7 +185,7 @@ const EditProfile = ({ profile: { profile, loading }, createOrUpdateProfile, his
                 type="text"
                 placeholder="Facebook URL"
                 name="facebook"
-                value={facebook}
+                value={facebook || ''}
                 onChange={event => onChange(event)}
               />
             </div>
@@ -185,7 +196,7 @@ const EditProfile = ({ profile: { profile, loading }, createOrUpdateProfile, his
                 type="text"
                 placeholder="YouTube URL"
                 name="youtube"
-                value={youtube}
+                value={youtube || ''}
                 onChange={event => onChange(event)}
               />
             </div>
@@ -196,7 +207,7 @@ const EditProfile = ({ profile: { profile, loading }, createOrUpdateProfile, his
                 type="text"
                 placeholder="Linkedin URL"
                 name="linkedin"
-                value={linkedin}
+                value={linkedin || ''}
                 onChange={event => onChange(event)}
               />
             </div>
@@ -207,7 +218,7 @@ const EditProfile = ({ profile: { profile, loading }, createOrUpdateProfile, his
                 type="text"
                 placeholder="Instagram URL"
                 name="instagram"
-                value={instagram}
+                value={instagram || ''}
                 onChange={event => onChange(event)}
               />
             </div>
@@ -215,7 +226,7 @@ const EditProfile = ({ profile: { profile, loading }, createOrUpdateProfile, his
         )}
 
         <input type="submit" className="btn btn-primary my-1" />
-        <Link className="btn btn-light my-1" href="/dashboard">
+        <Link className="btn btn-light my-1" to="/dashboard">
           Go Back
         </Link>
       </form>
@@ -224,14 +235,14 @@ const EditProfile = ({ profile: { profile, loading }, createOrUpdateProfile, his
 };
 
 EditProfile.propTypes = {
-  createProfile: PropTypes.func,
-  getCurrentProfile: PropTypes.func,
+  createOrUpdateProfile: PropTypes.func.isRequired,
+  getCurrentProfile: PropTypes.func.isRequired,
   profile: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
   profile: state.profile
-})
+});
 
 export default connect(
   mapStateToProps,
