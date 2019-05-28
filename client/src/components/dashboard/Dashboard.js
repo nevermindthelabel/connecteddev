@@ -8,11 +8,15 @@ import Spinner from '../layout/Spinner';
 import DashboardActions from './DashboardActions';
 import { getCurrentProfile, deleteAccount } from '../../actions/profile';
 
-const Dashboard = ({ getCurrentProfile, auth: { user }, profile: { loading, profile }, deleteAccount }) => {
+const Dashboard = ({
+  getCurrentProfile,
+  auth: { user },
+  profile: { loading, profile },
+  deleteAccount
+}) => {
   useEffect(() => {
     getCurrentProfile();
-    // eslint-disable-next-line
-  }, []);
+  }, [getCurrentProfile]);
   return loading && profile === null ? (
     <Spinner />
   ) : (
@@ -24,11 +28,11 @@ const Dashboard = ({ getCurrentProfile, auth: { user }, profile: { loading, prof
       {profile !== null ? (
         <Fragment>
           <DashboardActions />
-          <Experience experience={profile.experience}/>
+          <Experience experience={profile.experience} />
           <Education education={profile.education} />
           <div className="my-2">
             <button className="btn btn-danger" onClick={() => deleteAccount()}>
-              <i className="fas fa-user-minus"></i> Delete Account
+              <i className="fas fa-user-minus" /> Delete Account
             </button>
           </div>
         </Fragment>
