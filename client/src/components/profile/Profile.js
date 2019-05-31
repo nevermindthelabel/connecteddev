@@ -2,6 +2,8 @@ import React, { useEffect, Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import ProfileTop from './ProfileTop';
 import ProfileAbout from './ProfileAbout';
+import ProfileExp from './ProfileExp';
+import ProfileEdu from './ProfileEdu';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Spinner from '../layout/Spinner';
@@ -27,6 +29,12 @@ const Profile = ({ match, getProfileById, profile: { profile, loading }, auth })
           <div className="profile-grid my-1">
             <ProfileTop profile={profile}/>
             <ProfileAbout profile={profile} />
+            <div className="profile-exp bg-white p-2">
+              <ProfileExp />
+            </div>
+            <div className="profile-edu bg-white p-2">
+              <ProfileEdu />
+            </div>
           </div>
         </Fragment>
       )}
