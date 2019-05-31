@@ -2,6 +2,8 @@ import React, { useEffect, Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import ProfileTop from './ProfileTop';
 import ProfileAbout from './ProfileAbout';
+import ProfileExp from './ProfileExp';
+import ProfileEdu from './ProfileEdu';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Spinner from '../layout/Spinner';
@@ -21,12 +23,38 @@ const Profile = ({ match, getProfileById, profile: { profile, loading }, auth })
           <Link to="/profiles" className="btn btn-light">
             Back to Profiles
           </Link>
-          {auth.isAuthenticated && auth.loading === false && auth.user._id === profile.user._id && (<Link to='/edit-profile' className='btn btn-dark'>
-            Edit your Profile
-          </Link>)}
+          {auth.isAuthenticated && auth.loading === false && auth.user._id === profile.user._id && (
+            <Link to="/edit-profile" className="btn btn-dark">
+              Edit your Profile
+            </Link>
+          )}
           <div className="profile-grid my-1">
-            <ProfileTop profile={profile}/>
+            <ProfileTop profile={profile} />
             <ProfileAbout profile={profile} />
+            <div className="profile-exp bg-white p-2">
+              <h2 className="text-primary">Experience</h2>
+              {profile.experience.length > 0 ? (
+                <Fragment>
+                  {profile.experience.map(experience => (
+                    <ProfileExp experience={experience} key={experience._id} />
+                  ))}
+                </Fragment>
+              ) : (
+                <h4 className="text-danger">Sorry, no experience listed</h4>
+              )}
+            </div>
+            <div className="profile-edu bg-white p-2">
+              <h2 className="text-primary">Education</h2>
+              {profile.education.length > 0 ? (
+                <Fragment>
+                  {profile.education.map(education => (
+                    <ProfileEdu key={education._id} education={education} />
+                  ))}
+                </Fragment>
+              ) : (
+                <h4 className="text-danger">Sorry, no education listed</h4>
+              )}
+            </div>
           </div>
         </Fragment>
       )}
