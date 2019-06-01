@@ -1,19 +1,19 @@
 import React, { useEffect, Fragment } from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import Spinner from '../layout/Spinner';
 import ProfileTop from './ProfileTop';
 import ProfileAbout from './ProfileAbout';
 import ProfileExp from './ProfileExp';
 import ProfileEdu from './ProfileEdu';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import Spinner from '../layout/Spinner';
+import ProfileGithub from './ProfileGithub';
 import { getProfileById } from '../../actions/profile';
 
 const Profile = ({ match, getProfileById, profile: { profile, loading }, auth }) => {
   useEffect(() => {
     getProfileById(match.params.id);
-  }, [getProfileById, match]);
-
+  }, [getProfileById, match.params.id]);
   return (
     <Fragment>
       {profile === null || loading ? (
@@ -55,6 +55,7 @@ const Profile = ({ match, getProfileById, profile: { profile, loading }, auth })
                 <h4 className="text-danger">Sorry, no education listed</h4>
               )}
             </div>
+            {profile.githubusername && <ProfileGithub username={profile.githubusername} />}
           </div>
         </Fragment>
       )}
