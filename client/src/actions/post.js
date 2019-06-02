@@ -10,7 +10,6 @@ import {
   ADD_COMMENT,
   REMOVE_COMMENT
 } from './types';
-import { set } from 'mongoose';
 
 export const getPosts = () => async dispatch => {
   try {
