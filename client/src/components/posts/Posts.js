@@ -3,12 +3,29 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Spinner from '../layout/Spinner';
 import { getPosts } from '../../actions/post';
+import PostForm from './PostForm';
+import PostItem from './PostItem';
 
-const Posts = ({ getPosts, post: { posts, loading }}) => {
+const Posts = ({ getPosts, post: { posts, loading }, user }) => {
   useEffect(() => {
     getPosts();
-  }, [getPosts])
-  return <div />;
+  }, [getPosts]);
+  return loading ? (
+    <Spinner />
+  ) : (
+    <Fragment>
+      <h1 className="large text-primary">Posts</h1>
+      <p className="lead">
+        <i className="fas fa-user" /> Welcome {user.name}
+      </p>
+      <PostForm />
+      <div className="posts">
+        {posts.map(post => (
+          <PostItem key={post._id} post={post} />
+        ))}
+      </div>
+    </Fragment>
+  );
 };
 
 Posts.propTypes = {
@@ -17,7 +34,11 @@ Posts.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  post: state.post
-})
+  post: state.post,
+  user: state.auth.user
+});
 
-export default connect(mapStateToProps, { getPosts })(Posts);
+export default connect(
+  mapStateToProps,
+  { getPosts }
+)(Posts);
