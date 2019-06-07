@@ -1,3 +1,3 @@
-# connecteddev
 
-A Full Stack MERN application, using express-validator and jwt for authentication and Redux for state management.
+A practice application using the MERN stack - MongoDB(Mongoose), Express.js, React.js, and Node.js
+
