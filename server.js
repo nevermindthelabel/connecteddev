@@ -1,10 +1,26 @@
+require('dotenv').config();
 const express = require('express');
-const connectDB = require('./config/db');
 const routes = require('./routes');
 const path = require('path');
 const PORT = process.env.PORT || 3001;
+const mongoose = require('mongoose');
+const db = process.env.mongoURI;
 
 const app = express();
+
+const connectDB = async () => {
+  try {
+    await mongoose.connect(db, {
+      useNewUrlParser: true,
+      useCreateIndex: true,
+      useFindAndModify: false
+    });
+    console.log('mongoDB connected');
+  } catch (err) {
+    console.error(err.message);
+    process.exit(1);
+  }
+};
 
 connectDB();
 
